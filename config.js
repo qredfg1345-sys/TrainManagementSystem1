@@ -2,5 +2,5 @@
 // Never paste a database password, service_role or secret key here.
 window.TRAIN_CONFIG = {
   url: 'https://uvqaddybuyvxhwexgegh.supabase.co',
-  publishableKey: 'PASTE_YOUR_SUPABASE_PUBLISHABLE_KEY_HERE'
+  publishableKey: 'sb_publishable_2AdkWyZdPhRj4MPTydDrMA_sX6OTv_K'
 };
