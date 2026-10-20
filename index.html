@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Login</title>
+    <style>
+    * { box-sizing: border-box; }
+    :root {
+        --primary: #2c3e50;
+        --accent: #8e44ad;
+        --bg: #f4f7f6;
+    }
+    body {
+        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        background: var(--bg);
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        min-height: 100vh;
+        margin: 0;
+        padding: 20px;
+    }
+    .container, .card {
+        background: white;
+        width: 100%;
+        max-width: 550px;
+        padding: 30px;
+        border-radius: 15px;
+        box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+        border-top: 8px solid var(--accent);
+    }
+    h2 {
+        color: var(--primary);
+        text-align: center;
+        margin-bottom: 20px;
+    }
+    .form-group {
+        margin-bottom: 15px;
+    }
+    label {
+        display: block;
+        margin-bottom: 5px;
+        font-weight: 600;
+        color: #333;
+    }
+    input, select {
+        width: 100%;
+        padding: 12px;
+        border: 1px solid #ddd;
+        border-radius: 8px;
+        font-size: 1rem;
+        transition: 0.2s;
+    }
+    input:focus, select:focus {
+        outline: none;
+        border-color: var(--accent);
+        box-shadow: 0 0 0 2px rgba(142,68,173,0.2);
+    }
+    button {
+        width: 100%;
+        padding: 12px;
+        border: none;
+        border-radius: 8px;
+        font-weight: bold;
+        cursor: pointer;
+        transition: 0.3s;
+        margin-top: 10px;
+        font-size: 1rem;
+    }
+    .btn-search, .btn-primary {
+        background: var(--primary);
+        color: white;
+    }
+    .btn-search:hover, .btn-primary:hover {
+        background: #1e2b36;
+    }
+    .btn-accent, .btn-save {
+        background: var(--accent);
+        color: white;
+    }
+    .btn-accent:hover, .btn-save:hover {
+        background: #6c3483;
+    }
+    .message {
+        margin-top: 15px;
+        padding: 10px;
+        border-radius: 8px;
+        text-align: center;
+    }
+    .error {
+        background: #f8d7da;
+        color: #721c24;
+    }
+    .success {
+        background: #d4edda;
+        color: #155724;
+    }
+    .info {
+        background: #d1ecf1;
+        color: #0c5460;
+    }
+</style> 
+    <script  src="https://unpkg.com/@supabase/supabase-js@2"></script>
+    <script src="config.js"></script>
+</head>
+
+<body>
+   
+    <div class="card">
+    <h2>Login</h2>
+    <form id="loginForm">
+        <div class="form-group">
+            <label>Email</label>
+            <input type="email" id="email" required>
+        </div>
+        <div class="form-group">
+            <label>Password</label>
+            <input type="password" id="password" required>
+        </div>
+        <button type="submit" class="btn-accent">Login</button>
+    </form>
+<div id="message" role="status"></div>
+    <p style="text-align:center">New here? <a href="signup.html">Create an account</a></p>
+    <script>
+        const SUPABASE_URL = window.TRAIN_CONFIG.url;
+        const SUPABASE_ANON_KEY = window.TRAIN_CONFIG.publishableKey;
+        const supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+
+       document.getElementById('loginForm').addEventListener('submit', async (e) => {
+        e.preventDefault();
+        const email = document.getElementById('email').value;
+        const password = document.getElementById('password').value;
+        const messageDiv = document.getElementById('message');
+
+        const { data, error } = await supabaseClient.auth.signInWithPassword({ email, password });
+        if (error) {
+            messageDiv.textContent = error.message;
+            return;
+        }
+
+        localStorage.setItem('userEmail', data.user.email || email);
+        localStorage.setItem('userRole', 'member');
+        window.location.href = 'dashboard.html';
+    });
+    
+</script>
+</body>
+</html>
